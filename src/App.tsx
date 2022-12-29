@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import IndividualMovie from './Movies/IndividualMovie';
+import { landingPageDTO, movieDTO } from './Movies/movies.model';
+import MoviesList from './Movies/MoviesList';
+import Menu from './Menu';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import IndexGenres from './Genres/IndexGenres';
+import Genres from './Genres/IndexGenres';
+import LandingPage from './Movies/LandingPage';
+import routes from './route-config';
 
 function App() {
+ 
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+ 
+    <BrowserRouter>
+    <Menu/>
+    <div className="container"> 
+    <Switch>    
+        {routes.map(route=>
+        <Route key={route.path} path={route.path} exact={route.exact}>
+          <route.component/>
+        </Route>)}
+        </Switch> 
     </div>
-  );
-}
-
+    </BrowserRouter>
+  )
+  }
 export default App;
