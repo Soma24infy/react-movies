@@ -9,6 +9,9 @@ import IndexGenres from './Genres/IndexGenres';
 import Genres from './Genres/IndexGenres';
 import LandingPage from './Movies/LandingPage';
 import routes from './route-config';
+import configureValidations from './Validations';
+
+configureValidations();
 
 function App() {
  
