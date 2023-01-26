@@ -1,15 +1,34 @@
+import { urlActors } from "../endpoints";
+import EditEntity from "../Utils/EditEntity";
+import { convertActorToFormData } from "../Utils/formDataUtils";
 import ActorForm from "./ActorForm";
+import { actorCreationDTO, actorDTO } from "./actors.model";
 
 export default function EditActor()
 {
+    function transform(actor: actorDTO): actorCreationDTO {
+        //console.log(actor);
+        return {
+            name: actor.name,
+            pictureURL: actor.picture,
+            biography: actor.biography,
+            dateofBirth: new Date(actor.dateofBirth)
+        }
+       
+    }
+
     return(
-        <>
-        <h3>Edit Actor</h3>
-        <ActorForm model={{name:'Tom Holland',dateofBirth:new Date('1996-06-01T00:00:00'),
-        biography: `# Something 
-This person was born in **DR**`,
-        pictureURL:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Arnold_Schwarzenegger_by_Gage_Skidmore_4.jpg/330px-Arnold_Schwarzenegger_by_Gage_Skidmore_4.jpg'}}
-        onSubmit={values=>console.log(values)}/>
-        </>
+        <EditEntity<actorCreationDTO, actorDTO>
+            url={urlActors} indexURL="/actors" entityName="Actor"
+            transformFormData={convertActorToFormData}
+            transform={transform}
+            >                              
+                {(entity,edit)=>
+                <ActorForm
+                    model={entity}                    
+                    onSubmit={async values=> await edit(values)}
+                    />
+                }
+            </EditEntity>
     )
 }

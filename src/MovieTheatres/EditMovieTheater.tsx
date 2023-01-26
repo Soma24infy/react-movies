@@ -1,14 +1,18 @@
-import MovieTheaterForm from "./MovieTheaterForm";
+import { urlMovieTheaters } from '../endpoints';
+import EditEntity from '../Utils/EditEntity';
+import { movieTheaterCreationDTO, movieTheaterDTO } from './movieTheater.model';
+import MovieTheaterForm from './MovieTheaterForm';
 
-export default function EditMovieTheater()
-{
-    return(
-        <>
-        <h3>Edit Movie Theater</h3>
-        <MovieTheaterForm
-        model={{name:'City Center', latitude:25.318311806796817, longitude:51.50445556522756}}
-        onSubmit={values=>console.log(values)}
-        />
-        </>
+export default function EditMovieTheater(){
+    return (
+        <EditEntity<movieTheaterCreationDTO, movieTheaterDTO>
+            url={urlMovieTheaters} indexURL="/movietheaters" entityName="Movie Theater"
+        >
+            {(entity, edit) => 
+                <MovieTheaterForm model={entity}
+                 onSubmit={async values => await edit(values)}
+                />
+            }
+        </EditEntity>
     )
 }
